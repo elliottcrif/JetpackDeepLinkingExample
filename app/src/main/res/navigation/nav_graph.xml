@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/homeFragment">
+    <fragment android:id="@+id/homeFragment" android:name="com.elliottcrifasi.deeplinkexample.HomeFragment"
+              android:label="fragment_home" tools:layout="@layout/fragment_home">
+        <deepLink android:id="@+id/deepLink2" app:uri="example:://home"/>
+    </fragment>
+    <fragment android:id="@+id/notificationsFragment"
+              android:name="com.elliottcrifasi.deeplinkexample.NotificationsFragment"
+              android:label="fragment_notifications" tools:layout="@layout/fragment_notifications">
+        <deepLink android:id="@+id/deepLink3" app:uri="example://notifications"/>
+    </fragment>
+    <fragment android:id="@+id/dashboardFragment" android:name="com.elliottcrifasi.deeplinkexample.DashboardFragment"
+              android:label="fragment_dashboard" tools:layout="@layout/fragment_dashboard">
+        <deepLink android:id="@+id/deepLink4" app:uri="example://dashboard"/>
+    </fragment>
+</navigation>
