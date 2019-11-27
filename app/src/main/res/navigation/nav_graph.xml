@@ -4,16 +4,25 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
             app:startDestination="@id/homeFragment">
     <fragment android:id="@+id/homeFragment" android:name="com.elliottcrifasi.deeplinkexample.HomeFragment"
-              android:label="fragment_home" tools:layout="@layout/fragment_home">
+              android:label="Home Tab" tools:layout="@layout/fragment_home">
         <deepLink android:id="@+id/deepLink2" app:uri="example:://home"/>
     </fragment>
-    <fragment android:id="@+id/notificationsFragment"
-              android:name="com.elliottcrifasi.deeplinkexample.NotificationsFragment"
-              android:label="fragment_notifications" tools:layout="@layout/fragment_notifications">
-        <deepLink android:id="@+id/deepLink3" app:uri="example://notifications"/>
-    </fragment>
     <fragment android:id="@+id/dashboardFragment" android:name="com.elliottcrifasi.deeplinkexample.DashboardFragment"
-              android:label="fragment_dashboard" tools:layout="@layout/fragment_dashboard">
+              android:label="Dashboard Tab" tools:layout="@layout/fragment_dashboard">
         <deepLink android:id="@+id/deepLink4" app:uri="example://dashboard"/>
     </fragment>
+    <navigation android:id="@+id/notifications" app:startDestination="@id/notifications">
+        <fragment android:id="@+id/notificationDetail"
+                  android:name="com.elliottcrifasi.deeplinkexample.NotificationDetailFragment"
+                  android:label="fragment_notification_detail" tools:layout="@layout/fragment_notification_detail">
+            <deepLink android:id="@+id/deepLink5" app:uri="example://notifications/{id}"/>
+        </fragment>
+        <fragment android:id="@+id/notifications"
+                  android:name="com.elliottcrifasi.deeplinkexample.NotificationsFragment"
+                  android:label="fragment_notifications" tools:layout="@layout/fragment_notifications">
+            <action android:id="@+id/action_notificationsFragment_to_notificationDetailFragment2"
+                    app:destination="@id/notificationDetail" app:popUpTo="@+id/notifications"/>
+            <deepLink android:id="@+id/deepLink6" app:uri="example://notifications"/>
+        </fragment>
+    </navigation>
 </navigation>

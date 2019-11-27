@@ -4,15 +4,18 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.get
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,11 +29,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = nav_view
         navView.setupWithNavController(navController)
-
+        setupActionBarWithNavController(navController)
         createNotificationChannel()
-        createDeepLinkNotification(R.id.notificationsFragment)
-        createDeepLinkNotification(R.id.homeFragment)
-        createDeepLinkNotification(R.id.dashboardFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        navController.graph.forEach {
+            Log.d(javaClass.name, it.id.toString())
+            Log.d(javaClass.name, it.label.toString())
+        }
+
+
+        navController.navigate(Uri.parse("example://notifications/5"))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
     }
 
     private fun createNotificationChannel() {
@@ -50,11 +68,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun createDeepLinkNotification(destination: Int) {
         val destinationLabel = navController.graph[destination].label
+        val intent = navController
+            .createDeepLink()
+            .setDestination(destination)
+            .createTaskStackBuilder()
+            .getPendingIntent(0,0)
+
         var builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notifications_black_24dp)
             .setContentTitle("Notification Deep Link to $destinationLabel")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(navController.createDeepLink().setDestination(destination).createPendingIntent())
+            .setContentIntent(intent)
 
         with(NotificationManagerCompat.from(this)) {
             // notificationId is a unique int for each notification that you must define
