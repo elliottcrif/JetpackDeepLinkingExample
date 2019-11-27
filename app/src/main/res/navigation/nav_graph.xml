@@ -16,6 +16,7 @@
                   android:name="com.elliottcrifasi.deeplinkexample.NotificationDetailFragment"
                   android:label="fragment_notification_detail" tools:layout="@layout/fragment_notification_detail">
             <deepLink android:id="@+id/deepLink5" app:uri="example://notifications/{id}"/>
+            <argument android:name="id" app:argType="string" android:defaultValue='""'/>
         </fragment>
         <fragment android:id="@+id/notifications"
                   android:name="com.elliottcrifasi.deeplinkexample.NotificationsFragment"

@@ -29,19 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = nav_view
         navView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController)
         createNotificationChannel()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        navController.graph.forEach {
-            Log.d(javaClass.name, it.id.toString())
-            Log.d(javaClass.name, it.label.toString())
-        }
-
-
-        navController.navigate(Uri.parse("example://notifications/5"))
     }
 
     override fun onStop() {
